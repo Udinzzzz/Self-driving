@@ -1,13 +1,17 @@
 <html>
   <head>
     <title>Href Attribute Example</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  </head>
   <link rel="stylesheet" href="style.css">
+  </head>
   <body class="noselect">
     <canvas id="canvas"></canvas>
     
-    <div class="arrow-container">
+    <div id="verticalButtons">
+      <button onclick="save()">S</button>
+      <button onclick="discard()">R</button>
+    </div>
+    
+    <!-- <div class="arrow-container">
         <div class="empty"></div>
         <div id="tombolForward"><i class="fas fa-arrow-up"></i></div>
         <div class="empty"></div>
@@ -17,7 +21,8 @@
         <div class="empty"></div>
         <div id="tombolReverse"><i class="fas fa-arrow-down"></i></div>
         <div class="empty"></div>
-    </div>
+    </div> -->
+   <script src="network.js"></script>
     <script src="utils.js"></script>
     <script src="sensor.js"></script>
     <script src="control.js"></script>

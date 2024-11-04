@@ -1,23 +1,23 @@
 class Sensor {
-  constructor(player) {
-    this.player = player;
-    this.rayCount = 7;
-    this.rayLength = 100;
+  constructor(car) {
+    this.car = car;
+    this.rayCount = 10;
+    this.rayLength = 150;
     this.raySpread = Math.PI / 2;
 
     this.rays = [];
     this.accept = [];
   }
 
-  update(roadBorders) {
+  update(roadBorders, traffic) {
     this.#generateRays();
     this.accept = [];
     for (let i = 0; i < this.rays.length; i++) {
-      this.accept.push(this.#getAccept(this.rays[i], roadBorders));
+      this.accept.push(this.#getAccept(this.rays[i], roadBorders, traffic));
     }
   }
 
-  #getAccept(ray, roadBorders) {
+  #getAccept(ray, roadBorders, traffic) {
     let touches = [];
     for (let i = 0; i < roadBorders.length; i++) {
       const touch = getIntersection(
@@ -28,6 +28,20 @@ class Sensor {
       );
       if (touch) {
         touches.push(touch);
+      }
+    }
+    for (let i = 0; i < traffic.length; i++) {
+      const poly = traffic[i].polygon
+      for(let j=0; j<poly.length; j++){
+        const touch = getIntersection(
+        ray[0],
+        ray[1],
+        poly[j],
+        poly[(j+1)%poly.length]
+      );
+      if (touch) {
+        touches.push(touch);
+      }
       }
     }
     if (touches.length === 0) {
@@ -46,11 +60,11 @@ class Sensor {
         this.raySpread / 2,
         -this.raySpread / 2,
         i / (this.rayCount - 1)
-      ) + this.player.angle;
-      const start = { x: this.player.x, y: this.player.y };
+      ) + this.car.angle;
+      const start = { x: this.car.x, y: this.car.y };
       const end = {
-        x: this.player.x - Math.sin(rayAngle) * this.rayLength,
-        y: this.player.y - Math.cos(rayAngle) * this.rayLength,
+        x: this.car.x - Math.sin(rayAngle) * this.rayLength,
+        y: this.car.y - Math.cos(rayAngle) * this.rayLength,
       };
       this.rays.push([start, end]);
     }

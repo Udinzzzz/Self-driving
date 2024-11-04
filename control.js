@@ -1,11 +1,18 @@
 class Controls {
-  constructor() {
+  constructor(type) {
     this.forward = false;
     this.right = false;
     this.left = false;
     this.reverse = false;
-
-    this.#addInputs();
+    
+    switch (type){
+      case "KEYS":
+        this.#addInputs()
+        break;
+      case "DUMMY":
+        this.forward = true
+        break;
+    }
   }
 
   #addInputs() {
